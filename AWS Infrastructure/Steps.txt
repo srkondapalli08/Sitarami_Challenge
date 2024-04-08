@@ -1,0 +1,16 @@
+AWS Services required:
+    - EC2, VPC, Route 53, AWS Certificate Manager for SSL/TLS certificates, AWS Security
+    - CodePipeline, CodeDeploy
+
+Procedure:
+1. Create a VPC with public and private subnets and create an EC2 instance in the public subnet.
+2. Configure security groups to allow inbound traffic only on ports 80 and 443 for HTTP and HTTPS respectively.
+3. Configure the web server.
+4. Set up HTTPS using a self-signed certificate and redirect HTTP to HTTPS.
+5. Implement automated tests to validate the server configuration.
+6. Automate deployment using CodeDeploy and set up a CI/CD pipeline with CodePipeline.
+
+Test scripts:
+1. Check if web server is accessible
+2. Check if HTTP redirects to HTTPS
+3. Check SSL certificate
