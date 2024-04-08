@@ -1,0 +1,42 @@
+---
+- name: Install Nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: Copy index.html
+  copy:
+    src: index.html
+    dest: /usr/share/nginx/html/index.html
+
+- name: Enable and start Nginx
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+
+- name: Install epel-release (for certbot)
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install certbot
+  yum:
+    name: certbot
+    state: present
+
+- name: Generate self-signed certificate
+  command: certbot certonly --standalone --preferred-challenges http -d example.com
+  args:
+    creates: /etc/letsencrypt/live/example.com/fullchain.pem
+
+- name: Configure Nginx for HTTPS
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+
+- name: Restart Nginx
+  systemd:
+    name: nginx
+    state: restarted
+    
